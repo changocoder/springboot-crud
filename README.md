@@ -1,9 +1,9 @@
 # test-spring-boot
 ## CRUD API RESTful
-###Requirementes
-- Docker
+### Requirementes
+* Docker
 
-###Initialize Database
+### Initialize Database
 
 ```shell
 docker-compose up -d
