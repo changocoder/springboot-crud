@@ -2,48 +2,47 @@ package ar.edu.larioja.control.stock.Controllers;
 
 
 import ar.edu.larioja.control.stock.Models.Categoria;
-import ar.edu.larioja.control.stock.Repositories.CategoriaRepository;
+import org.springframework.web.bind.annotation.PathVariable;
+import ar.edu.larioja.control.stock.Services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping(path="/api/")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/categoria")
 public class CategoriaController {
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private CategoriaService categoriaService;
 
-    @GetMapping(path = "/api")
-    public @ResponseBody String HelloWorld(){
+    @GetMapping(produces="application/json",path = "/")
+    public ResponseEntity<String> HelloWorld(){
 
-        return "Hola Mundo";
-
-    }
-
-    @PostMapping(path = "/add")
-    public @ResponseBody String agregarCategoria(@RequestParam String nombre){
-
-        Categoria categoria = new Categoria ();
-
-        categoria.setNombre (nombre);
-        try {
-            categoriaRepository.save(categoria);
-        }catch (Exception ex){
-            System.out.println (ex);
-        }
-
-
-        return "Categoria Guardada";
+        return new ResponseEntity<>("Hello World!!", HttpStatus.OK );
 
     }
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<Categoria> getAllCategorias(){
+    @PostMapping(consumes = "application/json", produces = "application/json", path = "/add")
+    public ResponseEntity<Categoria> agregarCategoria(@RequestBody Categoria categoria){
 
-        return categoriaRepository.findAll();
+        return new ResponseEntity <> ( categoriaService.createCategoria ( categoria ), HttpStatus.CREATED);
+    }
+
+    @GetMapping(produces = "application/json",path = "/all")
+    public ResponseEntity<List<Categoria>> getAllCategorias(){
+
+        return new ResponseEntity <> ( categoriaService.getAllCategoria (), HttpStatus.OK );
 
 
+    }
+
+    @GetMapping(path = "/{categoriaId}", produces = "application/json")
+    public ResponseEntity<Categoria> getEmployee(@PathVariable(value = "categoriaId") Long categoriaId) {
+        return new ResponseEntity<>(categoriaService.getCategoria (categoriaId), HttpStatus.OK);
     }
 
 

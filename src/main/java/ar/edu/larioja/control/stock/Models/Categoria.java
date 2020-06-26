@@ -5,12 +5,12 @@ import org.omg.PortableInterceptor.INACTIVE;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Categorias")
+@Table(name = "categorias")
 public class Categoria {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Id")
-    private Integer Id;
+    private Long Id;
 
     @Column(name = "Descripcion")
     private String Descripcion;
@@ -18,11 +18,12 @@ public class Categoria {
     @Column(name = "Nombre")
     private String Nombre;
 
-    public Integer getId() {
+
+    public Long getId() {
         return Id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         Id = id;
     }
 
